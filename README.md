@@ -1,3 +1,9 @@
+## Run
+
+```shell script
+ansible-playbook -i hosts --ask-vault-pass --ask-become-pass deploy.yml
+```
+
 ## Vault
 
 Place encrypted files in `vars/main.yml` files. Encrypt the values with the following command.
