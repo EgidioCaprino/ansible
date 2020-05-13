@@ -1,0 +1,43 @@
+---
+- include: install_nginx.yml
+- include: install_certbot.yml
+
+- name: Copy egidiocarino.com server configuration file
+  copy:
+    src: www.egidiocaprino.com.conf
+    dest: /etc/nginx/sites-available/www.egidiocaprino.com.conf
+
+- name: Enable egidiocaprino.com server entry
+  file:
+    src: /etc/nginx/sites-available/www.egidiocaprino.com.conf
+    dest: /etc/nginx/sites-enabled/www.egidiocaprino.com.conf
+    state: link
+  notify: Restart nginx
+
+- name: Copy nextcloud.egidiocarino.com server configuration file
+  copy:
+    src: nextcloud.egidiocaprino.com.conf
+    dest: /etc/nginx/sites-available/nextcloud.egidiocaprino.com.conf
+
+- name: Enable nextcloud.egidiocaprino.com server entry
+  file:
+    src: /etc/nginx/sites-available/nextcloud.egidiocaprino.com.conf
+    dest: /etc/nginx/sites-enabled/nextcloud.egidiocaprino.com.conf
+    state: link
+  notify: Restart nginx
+
+- name: Copy drone.egidiocarino.com server configuration file
+  copy:
+    src: drone.egidiocaprino.com.conf
+    dest: /etc/nginx/sites-available/drone.egidiocaprino.com.conf
+
+- name: Enable drone.egidiocaprino.com server entry
+  file:
+    src: /etc/nginx/sites-available/drone.egidiocaprino.com.conf
+    dest: /etc/nginx/sites-enabled/drone.egidiocaprino.com.conf
+    state: link
+  notify: Restart nginx
+
+- name: Create HTTPS certificates
+  command: certbot
+  notify: Restart nginx

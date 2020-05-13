@@ -1,0 +1,24 @@
+---
+- name: Install Docker
+  pacman:
+    name:
+      - docker
+      - python-docker
+    state: present
+
+- name: Enable and start Docker service
+  systemd:
+    name: docker.service
+    state: started
+    enabled: yes
+
+- name: Run Docker container with web application
+  docker_container:
+    name: web-application
+    image: "{{ docker_image }}"
+    ports: 3000:3000
+    env:
+      NODE_ENV: production
+    memory: 300M
+    memory_swap: 1G
+    restart_policy: always

@@ -1,0 +1,10 @@
+---
+- name: Update the system
+  pacman:
+    update_cache: yes
+    upgrade: yes
+  register: system_update
+
+- name: Reboot the server
+  reboot:
+  when: system_update.changed

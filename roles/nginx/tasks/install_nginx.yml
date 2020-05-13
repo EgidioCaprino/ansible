@@ -1,0 +1,25 @@
+---
+- name: Install nginx
+  pacman:
+    name: nginx-mainline
+    state: present
+
+- name : Copy nginx configuration
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: Create available sites directory
+  file:
+    path: /etc/nginx/sites-available
+    state: directory
+
+- name: Create enabled sites directory
+  file:
+    path: /etc/nginx/sites-enabled
+    state: directory
+
+- name: Enable nginx service
+  systemd:
+    name: nginx.service
+    enabled: true

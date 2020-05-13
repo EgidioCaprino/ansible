@@ -1,0 +1,40 @@
+---
+
+- name: Install Docker
+  pacman:
+    name:
+      - docker
+      - python-docker
+    state: present
+
+- name: Run Drone container
+  docker_container:
+    name: drone_server
+    image: drone/drone:1
+    volumes:
+      - /var/lib/drone:/data
+    ports:
+      - '2080:80'
+    env:
+      DRONE_GITHUB_CLIENT_ID: "{{ github_client_id }}"
+      DRONE_GITHUB_CLIENT_SECRET: "{{ github_client_secret }}"
+      DRONE_RPC_SECRET: "{{ drone_rpc_secret }}"
+      DRONE_SERVER_HOST: drone.egidiocaprino.com
+      DRONE_SERVER_PROTO: https
+    restart_policy: always
+
+- name: Run Drone runner container
+  docker_container:
+    name: drone_runner_1
+    image: drone/drone-runner-docker:1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - '2000:3000'
+    env:
+      DRONE_RPC_PROTO: https
+      DRONE_RPC_HOST: drone.egidiocaprino.com
+      DRONE_RPC_SECRET: "{{ drone_rpc_secret }}"
+      DRONE_RUNNER_CAPACITY: '1'
+      DRONE_RUNNER_NAME: docker_runner_1
+    restart_policy: always

@@ -1,0 +1,37 @@
+---
+- name: Install Certbot
+  pacman:
+    name:
+      - certbot
+      - certbot-nginx
+    state: present
+
+- name: Create Certbot configuration directory
+  file:
+    path: /root/.config/letsencrypt
+    state: directory
+
+- name: Copy Certbot configuration file
+  copy:
+    src: cli.ini
+    dest: /root/.config/letsencrypt/cli.ini
+
+- name: Copy Certbot service for automatic renewal
+  copy:
+    src: certbot.service
+    dest: /etc/systemd/system/certbot.service
+
+- name: Copy Certbot timer for automatic renewal
+  copy:
+    src: certbot.timer
+    dest: /etc/systemd/system/certbot.timer
+
+- name: Reload systemd services
+  systemd:
+    daemon_reload: true
+
+- name: Enable timer for certificates renewal
+  systemd:
+    name: certbot.timer
+    state: started
+    enabled: yes
