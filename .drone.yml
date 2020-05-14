@@ -1,0 +1,25 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: create inventory file
+    image: alpine
+    commands:
+      - HOST_IP_ADDRESS=$(ip route | awk '/default/ { print $3 }')
+      - echo '[application-servers]' > hosts
+      - echo $HOST_IP_ADDRESS >> hosts
+
+  - name: deploy website
+    image: plugins/ansible
+    settings:
+      playbook: deploy_web.yml
+      inventory: hosts
+      private_key:
+        from_secret: ansible_private_key
+      vault_password:
+        from_secret: ansible_vault_password
+
+trigger:
+  branch:
+    - master

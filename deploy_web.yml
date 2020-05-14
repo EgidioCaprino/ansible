@@ -1,0 +1,4 @@
+---
+- hosts: application-servers
+  roles:
+    - web

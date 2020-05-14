@@ -1,7 +1,7 @@
-[web-server]
+[web-servers]
 192.168.1.3
 
-[application-server]
+[application-servers]
 192.168.1.3
 
 [all:vars]
