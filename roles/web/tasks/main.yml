@@ -12,6 +12,12 @@
     state: started
     enabled: yes
 
+- name: Pull latest image
+  docker_image:
+    name:   egidiocaprino/web
+    tag: latest
+    force: true
+
 - name: Run Docker container with web application
   docker_container:
     name: web-application
@@ -22,3 +28,4 @@
     memory: 300M
     memory_swap: 1G
     restart_policy: always
+    recreate: true
