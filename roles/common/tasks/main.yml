@@ -8,17 +8,3 @@
 - name: Reboot the server
   reboot:
   when: system_update.changed
-
-- name: Install Docker and Docker Compose
-  pacman:
-    name:
-      - docker
-      - docker-compose
-      - python-docker
-    state: present
-
-- name: Start and enable Docker service
-  systemd:
-    name: docker.service
-    state: started
-    enabled: yes
