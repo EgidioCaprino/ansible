@@ -1,12 +1,5 @@
 ---
 
-- name: Install Docker
-  pacman:
-    name:
-      - docker
-      - python-docker
-    state: present
-
 - name: Run Drone container
   docker_container:
     name: drone_server

@@ -1,13 +1,5 @@
 ---
 
-- name: Install Docker and Docker Compose
-  pacman:
-    name:
-      - docker
-      - docker-compose
-      - python-docker
-    state: present
-
 - name: Start Nextcloud with Docker Compose
   docker_compose:
     project_name: nextcloud

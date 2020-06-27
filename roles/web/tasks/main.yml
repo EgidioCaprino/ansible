@@ -1,16 +1,4 @@
 ---
-- name: Install Docker
-  pacman:
-    name:
-      - docker
-      - python-docker
-    state: present
-
-- name: Enable and start Docker service
-  systemd:
-    name: docker.service
-    state: started
-    enabled: yes
 
 - name: Run Docker container with web application
   docker_container:
