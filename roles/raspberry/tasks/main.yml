@@ -1,0 +1,16 @@
+---
+- name: Install netctl
+  pacman:
+    name:
+      - netctl
+      - wpa_supplicant
+      - dhcpcd
+      - dialog
+
+- name: Set home connection profile
+  template:
+    src: home.j2
+    dest: /etc/netctl/home
+
+- name: Enable home connection
+  command: netctl enable home
