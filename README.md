@@ -18,3 +18,4 @@ In order to perform backups you need to add the SSH private key required to log 
 
 ## To-do
 1. Remove SSH root access and align this Ansible setup.
+2. Add a `mail` role that sets up [S-nail](https://wiki.archlinux.org/index.php/S-nail).
