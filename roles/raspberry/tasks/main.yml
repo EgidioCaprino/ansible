@@ -6,11 +6,18 @@
       - wpa_supplicant
       - dhcpcd
       - dialog
+  become: true
 
 - name: Set home connection profile
   template:
     src: home.j2
     dest: /etc/netctl/home
+  become: true
 
 - name: Enable home connection
   command: netctl enable home
+  become: true
+
+- name: Set timezone
+  command: timedatectl set-timezone Europe/Rome
+  become: true
