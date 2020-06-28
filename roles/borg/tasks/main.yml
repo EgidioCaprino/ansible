@@ -1,0 +1,61 @@
+- name: Install Borg and sshfs
+  pacman:
+    name:
+      - borg
+      - sshfs
+    state: present
+  become: true
+
+- name: Mount backup disk
+  mount:
+    backup: yes
+    boot: yes
+    fstype: ext4
+    opts: rw,relatime
+    path: /mnt/borg_repository
+    src: /dev/sda1
+    state: mounted
+    passno: "1"
+  become: true
+
+- name: Create Borg repository
+  command: borg init --encryption none /mnt/borg_repository
+  become: true
+  ignore_errors: yes
+
+- name: Make egidiocaprino.com mount directory
+  file:
+    path: /mnt/egidiocaprino.com
+    state: directory
+  become: true
+
+- name: Copy Borg script
+  copy:
+    src: backup_docker_volumes.sh
+    dest: /opt/backup_docker_volumes.sh
+    mode: u+rwx
+  become: true
+
+- name: Copy Borg service
+  copy:
+    src: borg.service
+    dest: /etc/systemd/system/borg.service
+  become: true
+
+- name: Copy Borg timer
+  copy:
+    src: borg.timer
+    dest: /etc/systemd/system/borg.timer
+  become: true
+
+- name: Reload systemd services
+  systemd:
+    daemon_reload: true
+  become: true
+
+- name: Enable timer for Borg backups
+  systemd:
+    name: borg.timer
+    state: started
+    enabled: yes
+  become: true

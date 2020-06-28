@@ -4,7 +4,9 @@
     update_cache: yes
     upgrade: yes
   register: system_update
+  become: true
 
 - name: Reboot the server
   reboot:
   when: system_update.changed
+  become: true

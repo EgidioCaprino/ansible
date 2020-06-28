@@ -1,0 +1,6 @@
+---
+- hosts: raspberries
+  roles:
+    - common
+    - raspberry
+    - borg

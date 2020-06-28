@@ -1,0 +1,7 @@
+[Unit]
+Description=Borg backups
+Requires=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/backup_docker_volumes.sh
