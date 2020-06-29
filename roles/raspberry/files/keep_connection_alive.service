@@ -1,0 +1,6 @@
+[Unit]
+Description=Keep connection alive
+
+[Service]
+Type=simple
+ExecStart=/opt/keep_connection_alive.sh

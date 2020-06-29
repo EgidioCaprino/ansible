@@ -21,3 +21,34 @@
 - name: Set timezone
   command: timedatectl set-timezone Europe/Rome
   become: true
+
+- name: Copy script for keeping connection alive
+  copy:
+    src: keep_connection_alive.sh
+    dest: /opt/keep_connection_alive.sh
+    mode: u+rwx
+  become: true
+
+- name: Copy service for keeping connection alive
+  copy:
+    src: keep_connection_alive.service
+    dest: /etc/systemd/system/keep_connection_alive.service
+  become: true
+
+- name: Copy timer for keeping connection alive
+  copy:
+    src: keep_connection_alive.timer
+    dest: /etc/systemd/system/keep_connection_alive.timer
+  become: true
+
+- name: Reload systemd services
+  systemd:
+    daemon_reload: true
+  become: true
+
+- name: Enable timer for keeping connection alive
+  systemd:
+    name: keep_connection_alive.timer
+    state: started
+    enabled: yes
+  become: true
