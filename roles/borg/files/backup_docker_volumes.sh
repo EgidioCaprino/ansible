@@ -21,3 +21,7 @@ ssh -l root egidiocaprino.com "docker start nextcloud_db_1"
 ssh -l root egidiocaprino.com "docker start nextcloud_app_1"
 
 umount "${mountDir}"
+
+timeout --kill-after 1m 1h borg prune --prefix "var_lib_drone" --keep-last 30 "${repository}"
+timeout --kill-after 1m 1h borg prune --prefix "var_lib_docker_volumes_nextcloud_db" --keep-last 30 "${repository}"
+timeout --kill-after 1m 1h borg prune --prefix "var_lib_docker_volumes_nextcloud_nextcloud" --keep-last 30 "${repository}"
