@@ -1,0 +1,15 @@
+- name: Set NTP servers
+  ini_file:
+    path: /etc/systemd/timesyncd.conf
+    section: Time
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+  loop:
+    - { option: NTP, value: '0.arch.pool.ntp.org 1.arch.pool.ntp.org 2.arch.pool.ntp.org 3.arch.pool.ntp.org' }
+    - { option: FallbackNTP, value: '0.pool.ntp.org 1.pool.ntp.org 0.fr.pool.ntp.org' }
+
+- name: Start and enable systemd-timesyncd.service
+  systemd:
+    name: systemd-timesyncd.service
+    enabled: true
+    state: started

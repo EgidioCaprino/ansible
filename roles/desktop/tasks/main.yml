@@ -1,0 +1,15 @@
+- include: "{{ file }}"
+  loop:
+    - packages.yml
+    - swap_file.yml
+    - ntp.yml
+    - avahi.yml
+    - gnome.yml
+    - oh_my_zsh.yml
+    - printer.yml
+    - nodejs.yml
+    - docker.yml
+    - xbox_controller.yml
+    - kubernetes.yml
+  loop_control:
+    loop_var: file

@@ -1,0 +1,140 @@
+- name: Update system
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: Update AUR packages
+  aur:
+    upgrade: yes
+    aur_only: yes
+  become: yes
+  become_user: "{{ lookup('env', 'USER') }}"
+
+- name: Install packages
+  pacman:
+    state: present
+    name:
+      - base-devel
+      - man-db
+      - man-pages
+      - vim
+      - intel-ucode
+      - pacman-contrib
+      - ansible
+      - inetutils
+      - jq
+      - mesa
+      - lib32-mesa
+      - xf86-video-intel
+      - vulkan-intel
+      - nvidia
+      - lib32-nvidia-utils
+      - nvidia-prime
+      - mesa-demos
+      - simplescreenrecorder
+      - speedtest-cli
+      - youtube-dl
+      - ntfs-3g
+      - gparted
+      - imagemagick
+      - android-tools
+      - noto-fonts
+      - unrar
+      - pdftk
+      - ttf-fira-code
+      - avahi
+      - nss-mdns
+      - docker
+      - docker-compose
+      - gnome
+      - gnome-extra
+      - gdm
+      - libsecret
+      - seahorse
+      - arc-gtk-theme
+      - flatpak
+      - steam
+      - ttf-joypixels
+      - noto-fonts-emoji
+      - virtualbox
+      - virtualbox-host-modules-arch
+      - kubectl
+      - minikube
+      - zsh-syntax-highlighting
+      - zsh-autosuggestions
+      - zsh-completions
+      - cups
+      - cups-pdf
+      - systemd-swap
+
+- name: Install AUR packages
+  aur:
+    name:
+      - yay
+      - ansible-aur-git
+      - google-cloud-sdk
+      - firebase-tools
+      - pomotroid-bin
+      - insync
+      - trickle
+      - dive
+      - popcorntime-bin
+      - tiddlydesktop
+      - google-chrome
+      - leagueoflegends-git
+      - shadow-icon-theme
+      - gnome-shell-extension-emoji-selector-git
+      - spotify-adblock-git
+      - nvm
+      - oh-my-zsh-git
+      - xpadneo-dkms-git
+    skip_installed: yes
+  become: yes
+  become_user: "{{ lookup('env', 'USER') }}"
+
+- name: Remove unused packages
+  command: pacman -Rsn --noconfirm $(pacman -Qdtq)
+  ignore_errors: yes
+
+- name: Add Flathub repository to Flatpak
+  flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    state: present
+
+- name: Update Flatpak applications
+  command: flatpak update --noninteractive
+
+- name: Install Flatpak applications
+  flatpak:
+    name: "{{ flatpack }}"
+    state: present
+  loop:
+    - com.jetbrains.IntelliJ-IDEA-Ultimate
+    - com.transmissionbt.Transmission
+    - org.gimp.GIMP
+    - org.videolan.VLC
+    - org.telegram.desktop
+    - com.skype.Client
+    - com.getpostman.Postman
+    - org.libreoffice.LibreOffice
+    - net.xmind.ZEN
+    - io.lbry.lbry-app
+    - org.jdownloader.JDownloader
+    - org.mozilla.firefox
+    - com.github.xournalpp.xournalpp
+    - org.godotengine.Godot
+    - com.github.debauchee.barrier
+    - us.zoom.Zoom
+    - com.discordapp.Discord
+    - org.videolan.VLC
+    - net.ankiweb.Anki
+    - com.github.marktext.marktext
+    - org.openshot.OpenShot
+    - com.slack.Slack
+    - com.google.AndroidStudio
+  loop_control:
+    loop_var: flatpack
+
+- name: Remove unused Flatpak applications
+  command: flatpak uninstall --unused --noninteractive

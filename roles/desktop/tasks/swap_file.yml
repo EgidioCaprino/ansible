@@ -1,0 +1,23 @@
+- name: Enable SwapFC
+  ini_file:
+    path: /etc/systemd/swap.conf
+    section: null
+    option: swapfc_enabled
+    value: '1'
+    create: false
+
+- name: Optimize swap configuration
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/99-sysctl.conf
+    reload: yes
+  loop:
+    - { name: vm.swappiness, value: '5' }
+    - { name: vm.vfs_cache_pressure, value: '50' }
+
+- name: Start and enable systemd-swap services
+  systemd:
+    name: systemd-swap.service
+    enabled: true
+    state: started

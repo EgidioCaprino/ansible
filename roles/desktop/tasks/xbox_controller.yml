@@ -1,0 +1,5 @@
+- name: Disable Enhanced Retransmission Mode
+  lineinfile:
+    path: /etc/modprobe.d/xbox_bt.conf
+    line: 'options bluetooth disable_ertm=1'
+    create: yes

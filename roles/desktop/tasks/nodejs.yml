@@ -1,0 +1,6 @@
+---
+
+- name: Enable NVM
+  lineinfile:
+    path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
+    line: source /usr/share/nvm/init-nvm.sh

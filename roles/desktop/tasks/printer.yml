@@ -1,0 +1,4 @@
+- name: Enable org.cups.cupsd.socket
+  systemd:
+    name: org.cups.cupsd.socket
+    enabled: true

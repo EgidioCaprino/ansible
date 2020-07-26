@@ -1,0 +1,40 @@
+- name: Copy Oh My Zsh file
+  copy:
+    src: /usr/share/oh-my-zsh/templates/zshrc.zsh-template
+    dest: "/home/{{ lookup('env', 'USER') }}/.zshrc"
+  become: yes
+  become_user: "{{ lookup('env', 'USER') }}"
+
+- name: Set Oh My Zsh home
+  lineinfile:
+    path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
+    regexp: '^export ZSH='
+    line: 'export ZSH=/usr/share/oh-my-zsh'
+
+- name: Enable auto suggestions
+  lineinfile:
+    path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
+    line: source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+- name: Enable syntax highlighting
+  lineinfile:
+    path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
+    line: source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+- name: Enable plugins
+  lineinfile:
+    path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
+    regexp: '^plugins='
+    line: 'plugins=(git z)'
+
+- name: Set theme
+  lineinfile:
+    path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
+    regexp: '^ZSH_THEME='
+    line: 'ZSH_THEME="rkj-repos"'
+
+- name: Set sudo editor
+  lineinfile:
+    path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
+    regexp: '^export SUDO_EDITOR='
+    line: 'export SUDO_EDITOR=gedit'
