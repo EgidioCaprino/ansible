@@ -38,3 +38,9 @@
     path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
     regexp: '^export SUDO_EDITOR='
     line: 'export SUDO_EDITOR=gedit'
+
+- name: Set editor
+  lineinfile:
+    path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
+    regexp: '^export EDITOR='
+    line: 'export EDITOR=gedit'
