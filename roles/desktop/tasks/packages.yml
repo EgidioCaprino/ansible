@@ -66,6 +66,7 @@
       - cups
       - cups-pdf
       - systemd-swap
+      - ruby
 
 - name: Install AUR packages
   aur:
