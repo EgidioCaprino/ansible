@@ -67,6 +67,7 @@
       - cups-pdf
       - systemd-swap
       - ruby
+      - go-ipfs
 
 - name: Install AUR packages
   aur:
