@@ -68,6 +68,7 @@
       - systemd-swap
       - ruby
       - go-ipfs
+      - freemind
 
 - name: Install AUR packages
   aur:
