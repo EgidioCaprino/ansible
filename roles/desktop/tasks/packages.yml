@@ -69,6 +69,10 @@
       - ruby
       - go-ipfs
       - freemind
+      - wine-staging
+      - wine-gecko
+      - wine-mono
+      - lutris
 
 - name: Install AUR packages
   aur:
