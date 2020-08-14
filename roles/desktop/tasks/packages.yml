@@ -56,8 +56,8 @@
       - steam
       - ttf-joypixels
       - noto-fonts-emoji
-      - virtualbox
-      - virtualbox-host-modules-arch
+      - qemu
+      - libvirt
       - kubectl
       - minikube
       - zsh-syntax-highlighting
